@@ -7,13 +7,13 @@ using Umbraco.Web.WebApi;
 using Umbraco.Web;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
-
+using Umbraco.Web.Mvc;
 
 namespace CMStest.Controllers
 {
+    [PluginController("Api")]
     public class ApiUmbracoController : UmbracoApiController
     {
-        public string cos = "asdasd";
         [HttpGet]
         public IHttpActionResult GetData()
         {
