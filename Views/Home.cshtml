@@ -1,0 +1,72 @@
+﻿﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<CMStest.Models.UmbracoModel>
+@using ContentModels = Umbraco.Web.PublishedModels;
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<div class="containter-fluid">
+    <div class="container" align="center">
+        <div style="margin-bottom: 10px; margin-top:15px;">
+            <input type="text" placeholder="Search..." />
+            <input type="submit" value="Search" />
+        </div>
+        <div style="margin-bottom:5px;">
+            @foreach (var item in Model.Categories)
+            {
+                <button>@item</button>
+            }
+        </div>
+        <div style="margin-bottom:10px;">
+            @foreach (var tagg in Model.Taggs)
+            {
+                <a href="#" style="margin-right:10px;">#@tagg.Title</a>
+            }
+        </div>
+    </div>
+
+    <div align="center" style="padding-left:20%;">
+        <div class="row containter" align="center" style="margin:0% 20% 0% 10%;">
+            @foreach (var item in Model.Movies)
+            {
+                <div class="col-md-4" style="padding-bottom:5px;">
+                    @if (item.PickMedia.Name == "images")
+                    {
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="width:300px; height:250px;">
+                            <div class="carousel-inner">
+                                @foreach (var photos in item.PickMedia.ImageUrl)
+                                {
+                                    <div class="carousel-item @(photos == item.PickMedia.ImageUrl.First() ? "active" : "")">
+                                        <img src="@photos" alt="@item.Title" style="width:300px; height:250px;" class="d-block w-100">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    @if (item.PickMedia.Name == "videoUrl")
+                    {
+                        <iframe style="width:300px; height:250px;" src="https://www.youtube.com/embed/@item.PickMedia.YtUrl"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen class="film-item-media">
+                        </iframe>
+
+                    }
+                    @if (item.PickMedia.Name == "userVideos")
+                    {
+                        <video src="@item.PickMedia.VideoUrl" style="width:300px; height:250px;" autoplay loop muted />
+                    }
+                </div>
+                <div class="col-md-8" style="text-align:left">
+                    <h3><strong>Title: </strong> @item.Title</h3>
+                    <h5><strong>Publication: </strong>@item.PubDate</h5>
+                    <h5><strong>Descripton: </strong>@item.Description</h5>
+                    @foreach (var tags in item.MovieTag)
+                    {
+                        <a href="#" style="margin-right:10px;">#@tags.Title</a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
